@@ -80,10 +80,10 @@ extension STMAssetResourceLoaderManager: AVAssetResourceLoaderDelegate {
 		}()
 
 		if let dataRequest = loadingRequest.dataRequest, dataRequest.requestsAllDataToEndOfResource {
-			request.setValue("bytes=\(startOffset)-", forHTTPHeaderField: "Range")
+			request.setValue("\(kBytesKey)=\(startOffset)-", forHTTPHeaderField: kRequestRangeKey)
 		} else {
 			let endOffset = startOffset + Int64(requestLength) - 1
-			request.setValue("bytes=\(startOffset)-\(endOffset)", forHTTPHeaderField: "Range")
+			request.setValue("\(kBytesKey)=\(startOffset)-\(endOffset)", forHTTPHeaderField: kRequestRangeKey)
 		}
 
 		let task = session.dataTask(with: request)
@@ -106,39 +106,10 @@ extension STMAssetResourceLoaderManager: AVAssetResourceLoaderDelegate {
 //--------------------------------------------------------------------------------
 
 extension STMAssetResourceLoaderManager: URLSessionDataDelegate {
-	public func urlSession(
-		_ session: URLSession,
-		dataTask: URLSessionDataTask,
-		didReceive response: URLResponse,
-		completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
-	) {
-		if let index = dataTasks.firstIndex(of: dataTask) {
-			let loadingRequest = pendingRequests[index]
-			loadingRequest.response = response
-
-			if let contentInformationRequest = loadingRequest.contentInformationRequest {
-				fillInWithRemoteResponse(contentInformationRequest, response: response)
-				loadingRequest.finishLoading()
-				let task = dataTasks[index]
-				task.cancel()
-				dataTasks.remove(at: index)
-				datas.remove(at: index)
-				pendingRequests.remove(at: index)
-			}
-		}
-
-		completionHandler(.allow)
-	}
-
 	public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
 		guard let index = dataTasks.firstIndex(of: dataTask) else { return }
 		let loadingRequest = pendingRequests[index]
 		var mutableData = datas[index]
-
-		let requestOffset = loadingRequest.dataRequest?.requestedOffset ?? 0
-		let currentOffset = loadingRequest.dataRequest?.currentOffset ?? 0
-//		let requestLength = loadingRequest.dataRequest?.requestedLength ?? 0
-		precondition(mutableData.count == currentOffset - requestOffset)
 
 		switch validData(of: data, from: dataTask, loadingRequest: loadingRequest) {
 		case .failure(let error):
@@ -163,6 +134,10 @@ extension STMAssetResourceLoaderManager: URLSessionDataDelegate {
 		if let error = error {
 			loadingRequest.finishLoading(with: error)
 		} else {
+            if let contentInformationRequest = loadingRequest.contentInformationRequest, let response = task.response {
+                fillInWithRemoteResponse(contentInformationRequest, response: response)
+            }
+            
 			loadingRequest.finishLoading()
 		}
 
@@ -179,25 +154,9 @@ extension STMAssetResourceLoaderManager {
 		{
 			request.contentType = contentType.takeRetainedValue() as String
 		}
-
-		guard let httpResponse = response as? HTTPURLResponse,
-			  let contentRange = httpResponse.allHeaderFields["Content-Range"] as? String
-		else {
-			request.contentLength = response.expectedContentLength
-			return
-		}
-
-		if let accept = httpResponse.allHeaderFields["Accept-Ranges"] as? String, accept == "bytes" {
-			request.isByteRangeAccessSupported = true
-		} else {
-			request.isByteRangeAccessSupported = false
-		}
-
-		if let contentLength = contentRange.components(separatedBy: "/").last, let length = Int64(contentLength) {
-			request.contentLength = length
-		} else {
-			request.contentLength = response.expectedContentLength
-		}
+        
+        request.contentLength = response.stm_expectedContentLength
+        request.isByteRangeAccessSupported = response.stm_isByteRangeAccessSupported
 	}
 }
 
@@ -227,15 +186,15 @@ extension STMAssetResourceLoaderManager {
 			return .failure(STMResourceLoadingError.responseValidationFailed)
 		}
 
-//		if let currentRequest = dataTask.currentRequest,
-//		   let dataRequest = loadingRequest.dataRequest,
-//		   !rangeOfRequest(currentRequest, isEqualToRangeOf: httpResponse, requestToEnd: dataRequest.requestsAllDataToEndOfResource)
-//		{
-//			if let data = subData(of: receiveData, from: currentRequest, response: httpResponse, loadingRequest: loadingRequest) {
-//				return .success(data)
-//			}
-//			return .failure(STMResourceLoadingError.wrongRange)
-//		}
+		if let currentRequest = dataTask.currentRequest,
+		   let dataRequest = loadingRequest.dataRequest,
+		   !rangeOfRequest(currentRequest, isEqualToRangeOf: httpResponse, requestToEnd: dataRequest.requestsAllDataToEndOfResource)
+		{
+			if let data = subData(of: receiveData, from: currentRequest, response: httpResponse, loadingRequest: loadingRequest) {
+				return .success(data)
+			}
+			return .failure(STMResourceLoadingError.wrongRange)
+		}
 
 		return .success(receiveData)
 	}
@@ -243,8 +202,8 @@ extension STMAssetResourceLoaderManager {
 	private func subData(
 		of data: Data, from request: URLRequest, response: HTTPURLResponse, loadingRequest: AVAssetResourceLoadingRequest
 	) -> Data? {
-		let requestRange = range(from: request)
-		let responseRange = range(from: response)
+        let requestRange = request.stm_range
+        let responseRange = response.stm_contentRange
 		let requestRanges = requestRange.components(separatedBy: "-")
 		let responseRanges = responseRange.components(separatedBy: "-")
 		let requestFrom = Int(requestRanges.first ?? "0") ?? 0
@@ -267,19 +226,8 @@ extension STMAssetResourceLoaderManager {
 	}
 
 	private func rangeOfRequest(_ request: URLRequest, isEqualToRangeOf response: HTTPURLResponse, requestToEnd: Bool) -> Bool {
-		let requestRange = range(from: request)
-		let responseRange = range(from: response)
+        let requestRange = request.stm_range
+        let responseRange = response.stm_contentRange
 		return requestToEnd ? responseRange.hasPrefix(requestRange) : requestRange == responseRange
-	}
-
-	private func range(from request: URLRequest) -> String {
-		guard let range = request.allHTTPHeaderFields?["Range"] else { return "" }
-		return range.components(separatedBy: "=").last ?? ""
-	}
-
-	private func range(from response: HTTPURLResponse) -> String {
-		guard let range = response.allHeaderFields["Content-Range"] as? String else { return "" }
-		guard let content = range.components(separatedBy: "/").first else { return "" }
-		return content.components(separatedBy: " ").last ?? ""
 	}
 }
