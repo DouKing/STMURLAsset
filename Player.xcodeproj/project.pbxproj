@@ -18,8 +18,10 @@
 		003931842546C612004E62AB /* STMAssetResourceLoaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003931832546C612004E62AB /* STMAssetResourceLoaderManager.swift */; };
 		0039320A2548192E004E62AB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 003932092548192E004E62AB /* Alamofire */; };
 		0039321C2549229F004E62AB /* STMURLAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0039321B2549229F004E62AB /* STMURLAsset.swift */; };
-		0039322125494114004E62AB /* STMAssetLoaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0039322025494114004E62AB /* STMAssetLoaderDelegate.swift */; };
+		0039322125494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0039322025494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift */; };
 		5291250C254A611800A2A488 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291250B254A611800A2A488 /* Helper.swift */; };
+		52C83096254BDB79006A880E /* STMAssetResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C83095254BDB79006A880E /* STMAssetResourceLoader.swift */; };
+		52C8309E254BF256006A880E /* STMDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8309D254BF256006A880E /* STMDataRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +58,10 @@
 		003931222546BD11004E62AB /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		003931832546C612004E62AB /* STMAssetResourceLoaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetResourceLoaderManager.swift; sourceTree = "<group>"; };
 		0039321B2549229F004E62AB /* STMURLAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMURLAsset.swift; sourceTree = "<group>"; };
-		0039322025494114004E62AB /* STMAssetLoaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetLoaderDelegate.swift; sourceTree = "<group>"; };
+		0039322025494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetResourceLoaderManagerDelegate.swift; sourceTree = "<group>"; };
 		5291250B254A611800A2A488 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		52C83095254BDB79006A880E /* STMAssetResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetResourceLoader.swift; sourceTree = "<group>"; };
+		52C8309D254BF256006A880E /* STMDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMDataRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +147,9 @@
 			isa = PBXGroup;
 			children = (
 				003931832546C612004E62AB /* STMAssetResourceLoaderManager.swift */,
-				0039322025494114004E62AB /* STMAssetLoaderDelegate.swift */,
+				52C83095254BDB79006A880E /* STMAssetResourceLoader.swift */,
+				52C8309D254BF256006A880E /* STMDataRequest.swift */,
+				0039322025494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift */,
 				0039321B2549229F004E62AB /* STMURLAsset.swift */,
 				5291250B254A611800A2A488 /* Helper.swift */,
 			);
@@ -286,13 +292,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52C8309E254BF256006A880E /* STMDataRequest.swift in Sources */,
 				003930E82546B930004E62AB /* ViewController.swift in Sources */,
 				5291250C254A611800A2A488 /* Helper.swift in Sources */,
+				52C83096254BDB79006A880E /* STMAssetResourceLoader.swift in Sources */,
 				0039321C2549229F004E62AB /* STMURLAsset.swift in Sources */,
 				003931842546C612004E62AB /* STMAssetResourceLoaderManager.swift in Sources */,
 				003930E42546B930004E62AB /* AppDelegate.swift in Sources */,
 				003931232546BD11004E62AB /* VideoViewController.swift in Sources */,
-				0039322125494114004E62AB /* STMAssetLoaderDelegate.swift in Sources */,
+				0039322125494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

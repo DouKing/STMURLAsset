@@ -1,5 +1,5 @@
 //
-//  STMURLAssetLoaderDelegate.swift
+//  STMAssetResourceLoaderManagerDelegate.swift
 //  Player
 //
 //  Created by DouKing on 2020/10/28.
