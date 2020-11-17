@@ -20,6 +20,7 @@ class VideoViewController: UIViewController {
 		playerView.playerLayer.player = player
 
 		let url = URL(string: "https://vt1.doubanio.com/202001021917/01b91ce2e71fd7f671e226ffe8ea0cda/view/movie/M/301120229.mp4")!
+//		let url = URL(string: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")!
 		let asset = STMURLAsset(url: url)
 //		asset.loadValuesAsynchronously(forKeys: ["playable"]) {
 //			var error: NSError? = nil

@@ -19,9 +19,15 @@
 		0039320A2548192E004E62AB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 003932092548192E004E62AB /* Alamofire */; };
 		0039321C2549229F004E62AB /* STMURLAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0039321B2549229F004E62AB /* STMURLAsset.swift */; };
 		0039322125494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0039322025494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift */; };
+		0047282525621F1A0010A58A /* VideoCacheAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0047281D25621F1A0010A58A /* VideoCacheAction.swift */; };
+		0047282625621F1A0010A58A /* VideoCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0047281E25621F1A0010A58A /* VideoCacheManager.swift */; };
+		0047282725621F1A0010A58A /* VideoCacheConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0047281F25621F1A0010A58A /* VideoCacheConfiguration.swift */; };
+		0047282825621F1A0010A58A /* VideoCacheHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0047282025621F1A0010A58A /* VideoCacheHandler.swift */; };
+		0047282E25621FDE0010A58A /* AssetResourceContentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0047282D25621FDE0010A58A /* AssetResourceContentInfo.swift */; };
+		00472837256220EF0010A58A /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00472836256220EF0010A58A /* String+Extension.swift */; };
 		5291250C254A611800A2A488 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291250B254A611800A2A488 /* Helper.swift */; };
 		52C83096254BDB79006A880E /* STMAssetResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C83095254BDB79006A880E /* STMAssetResourceLoader.swift */; };
-		52C8309E254BF256006A880E /* STMDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8309D254BF256006A880E /* STMDataRequest.swift */; };
+		52C8309E254BF256006A880E /* STMAssetResourceDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8309D254BF256006A880E /* STMAssetResourceDataRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,9 +65,15 @@
 		003931832546C612004E62AB /* STMAssetResourceLoaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetResourceLoaderManager.swift; sourceTree = "<group>"; };
 		0039321B2549229F004E62AB /* STMURLAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMURLAsset.swift; sourceTree = "<group>"; };
 		0039322025494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetResourceLoaderManagerDelegate.swift; sourceTree = "<group>"; };
+		0047281D25621F1A0010A58A /* VideoCacheAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCacheAction.swift; sourceTree = "<group>"; };
+		0047281E25621F1A0010A58A /* VideoCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCacheManager.swift; sourceTree = "<group>"; };
+		0047281F25621F1A0010A58A /* VideoCacheConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCacheConfiguration.swift; sourceTree = "<group>"; };
+		0047282025621F1A0010A58A /* VideoCacheHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCacheHandler.swift; sourceTree = "<group>"; };
+		0047282D25621FDE0010A58A /* AssetResourceContentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetResourceContentInfo.swift; sourceTree = "<group>"; };
+		00472836256220EF0010A58A /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		5291250B254A611800A2A488 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		52C83095254BDB79006A880E /* STMAssetResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetResourceLoader.swift; sourceTree = "<group>"; };
-		52C8309D254BF256006A880E /* STMDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMDataRequest.swift; sourceTree = "<group>"; };
+		52C8309D254BF256006A880E /* STMAssetResourceDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STMAssetResourceDataRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,14 +158,44 @@
 		0039321725491BC4004E62AB /* STMResourceLoader */ = {
 			isa = PBXGroup;
 			children = (
+				00472835256220C20010A58A /* Extension */,
+				0047282C25621FB60010A58A /* Model */,
+				0047281C25621F1A0010A58A /* Cache */,
 				003931832546C612004E62AB /* STMAssetResourceLoaderManager.swift */,
 				52C83095254BDB79006A880E /* STMAssetResourceLoader.swift */,
-				52C8309D254BF256006A880E /* STMDataRequest.swift */,
+				52C8309D254BF256006A880E /* STMAssetResourceDataRequest.swift */,
 				0039322025494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift */,
 				0039321B2549229F004E62AB /* STMURLAsset.swift */,
 				5291250B254A611800A2A488 /* Helper.swift */,
 			);
 			path = STMResourceLoader;
+			sourceTree = "<group>";
+		};
+		0047281C25621F1A0010A58A /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				0047281D25621F1A0010A58A /* VideoCacheAction.swift */,
+				0047281E25621F1A0010A58A /* VideoCacheManager.swift */,
+				0047281F25621F1A0010A58A /* VideoCacheConfiguration.swift */,
+				0047282025621F1A0010A58A /* VideoCacheHandler.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		0047282C25621FB60010A58A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0047282D25621FDE0010A58A /* AssetResourceContentInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		00472835256220C20010A58A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				00472836256220EF0010A58A /* String+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,13 +334,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52C8309E254BF256006A880E /* STMDataRequest.swift in Sources */,
+				0047282625621F1A0010A58A /* VideoCacheManager.swift in Sources */,
+				0047282825621F1A0010A58A /* VideoCacheHandler.swift in Sources */,
+				0047282525621F1A0010A58A /* VideoCacheAction.swift in Sources */,
+				00472837256220EF0010A58A /* String+Extension.swift in Sources */,
+				0047282E25621FDE0010A58A /* AssetResourceContentInfo.swift in Sources */,
+				52C8309E254BF256006A880E /* STMAssetResourceDataRequest.swift in Sources */,
 				003930E82546B930004E62AB /* ViewController.swift in Sources */,
 				5291250C254A611800A2A488 /* Helper.swift in Sources */,
 				52C83096254BDB79006A880E /* STMAssetResourceLoader.swift in Sources */,
 				0039321C2549229F004E62AB /* STMURLAsset.swift in Sources */,
 				003931842546C612004E62AB /* STMAssetResourceLoaderManager.swift in Sources */,
 				003930E42546B930004E62AB /* AppDelegate.swift in Sources */,
+				0047282725621F1A0010A58A /* VideoCacheConfiguration.swift in Sources */,
 				003931232546BD11004E62AB /* VideoViewController.swift in Sources */,
 				0039322125494114004E62AB /* STMAssetResourceLoaderManagerDelegate.swift in Sources */,
 			);

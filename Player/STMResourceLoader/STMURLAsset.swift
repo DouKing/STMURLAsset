@@ -33,7 +33,7 @@ public class STMURLAsset: AVURLAsset {
 		}
 
 		super.init(url: assetURL, options: options)
-		assetLoaderManager = STMAssetResourceLoaderManager(with: url)
+		assetLoaderManager = try? STMAssetResourceLoaderManager(with: url)
 		resourceLoader.setDelegate(assetLoaderManager, queue: .main)
 	}
 

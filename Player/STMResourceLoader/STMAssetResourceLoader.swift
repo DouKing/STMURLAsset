@@ -13,22 +13,20 @@ import CoreServices
 class STMAssetResourceLoader: NSObject {
     private(set) var url: URL!
     private(set) var loadingRequest: AVAssetResourceLoadingRequest!
-    private var dataRequest: STMDataRequest?
-    private var receiveData: Data?
-    
+    private var dataRequest: STMAssetResourceDataRequest?
+	private let cacheHandler: VideoCacheHandler
+
     var assetResourceLoaderDidComplete: ((STMAssetResourceLoader, Error?) -> Void)?
-    
-    private override init() {
+
+	init(with url: URL, loadingRequest: AVAssetResourceLoadingRequest, cacheHandler: VideoCacheHandler) {
+		self.url = url
+		self.loadingRequest = loadingRequest
+		self.cacheHandler = cacheHandler
         super.init()
+		fillInWithVideoInfo(loadingRequest.contentInformationRequest, cacheHandler.configuration.info)
     }
     
-    convenience init(with url: URL, loadingRequest: AVAssetResourceLoadingRequest) {
-        self.init()
-        self.url = url
-        self.loadingRequest = loadingRequest
-    }
-    
-    func start() {
+    func startLoad() {
         guard let requestLength = loadingRequest.dataRequest?.requestedLength, requestLength > 0 else {
             return
         }
@@ -42,19 +40,18 @@ class STMAssetResourceLoader: NSObject {
         let endOffset = startOffset + Int64(requestLength) - 1
         
         cancel()
-        receiveData = Data()
 
-        dataRequest = STMDataRequest(with: url, from: startOffset, to: endOffset)
+		dataRequest = STMAssetResourceDataRequest(with: url, cacheHandler: cacheHandler)
         dataRequest?.dataTaskDidReceiveData = { [weak self] (session, dataTask, data) -> Void in
             guard let self = self else { return }
             switch self.validData(of: data, from: dataTask, loadingRequest: self.loadingRequest) {
             case .failure(let error):
-                debugPrint(error)
+                debugPrint("valid error \(error)")
                 self.loadingRequest.finishLoading(with: error)
                 dataTask.cancel()
                 return
             case .success(let validData):
-                self.receiveData?.append(validData)
+				debugPrint("receive remote data \(validData.count) bytes")
                 self.loadingRequest.dataRequest?.respond(with: validData)
             }
         }
@@ -70,10 +67,25 @@ class STMAssetResourceLoader: NSObject {
                 
                 self.loadingRequest.finishLoading()
             }
-            
+
+			debugPrint("receive remote data complete \((error != nil) ? "\(error!)" : "success")")
             self.assetResourceLoaderDidComplete?(self, error)
         }
-        dataRequest?.start()
+
+		dataRequest?.didReceiveLocalData = { [weak self] (request, data) in
+			guard let self = self else { return }
+			debugPrint("receive local data \(data.count) bytes")
+			self.loadingRequest.dataRequest?.respond(with: data)
+		}
+
+		dataRequest?.didCompleteLocal = { [weak self] (request) in
+			guard let self = self else { return }
+			debugPrint("receive local data complete")
+			self.loadingRequest.finishLoading()
+			self.assetResourceLoaderDidComplete?(self, nil)
+		}
+
+		dataRequest?.download(from: startOffset, to: endOffset)
     }
     
     func cancel() {
@@ -91,7 +103,20 @@ extension STMAssetResourceLoader {
         
         request.contentLength = response.stm_expectedContentLength
         request.isByteRangeAccessSupported = response.stm_isByteRangeAccessSupported
+
+		cacheHandler.set(info:AssetResourceContentInfo(
+			contentLength: request.contentLength,
+			contentType: request.contentType ?? "",
+			isByteRangeAccessSupported: request.isByteRangeAccessSupported
+		))
     }
+
+	private func fillInWithVideoInfo(_ request: AVAssetResourceLoadingContentInformationRequest?, _ videoInfo: AssetResourceContentInfo?) {
+		guard let request = request, let videoInfo = videoInfo else { return }
+		request.contentType = videoInfo.contentType
+		request.contentLength = videoInfo.contentLength
+		request.isByteRangeAccessSupported = videoInfo.isByteRangeAccessSupported
+	}
     
     private func validData(
         of receiveData: Data, from dataTask: URLSessionDataTask, loadingRequest: AVAssetResourceLoadingRequest
