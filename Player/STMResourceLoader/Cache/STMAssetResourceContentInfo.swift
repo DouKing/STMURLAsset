@@ -8,7 +8,6 @@
 import Foundation
 
 struct STMAssetResourceContentInfo: Codable {
-
 	var contentLength: Int64
 	var contentType: String
 	var isByteRangeAccessSupported: Bool
@@ -18,5 +17,4 @@ struct STMAssetResourceContentInfo: Codable {
 		self.contentType = contentType
 		self.isByteRangeAccessSupported = isByteRangeAccessSupported
 	}
-
 }

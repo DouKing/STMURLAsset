@@ -24,7 +24,7 @@
 
 import Foundation
 
-struct STMAssetResourceConfiguration: Codable {
+class STMAssetResourceConfiguration: Codable {
 	private init(filePath: String) {
 		self.filePath = filePath
 	}
@@ -38,7 +38,7 @@ struct STMAssetResourceConfiguration: Codable {
 			return STMAssetResourceConfiguration(filePath: filePath)
 		}
 
-		var configuration = try JSONDecoder().decode(STMAssetResourceConfiguration.self, from: data)
+		let configuration = try JSONDecoder().decode(STMAssetResourceConfiguration.self, from: data)
 		configuration.filePath = filePath
 
 		return configuration
@@ -48,10 +48,10 @@ struct STMAssetResourceConfiguration: Codable {
 		return (assetResourcePath as NSString).appendingPathExtension("stm")!
 	}
 
-	mutating func add(fragment: NSRange) {
+	func add(fragment: NSRange) {
 		guard fragment.location != NSNotFound, fragment.length > 0 else { return }
 
-		if fragments.count == 0 {
+		if fragments.isEmpty {
 			fragments.append(fragment)
 			return
 		}
@@ -137,5 +137,4 @@ struct STMAssetResourceConfiguration: Codable {
 		guard let info = info, info.contentLength > 0 else { return 0 }
 		return Double(downloadedByteCount) / Double(info.contentLength)
 	}
-
 }

@@ -26,9 +26,8 @@ import Foundation
 
 private let kFragmentLength = 1024 * 512
 
-public class STMAssetResourceCache {
-    
-    private(set) var configuration: STMAssetResourceConfiguration
+class STMAssetResourceCache {
+    private let configuration: STMAssetResourceConfiguration
     private let readFileHandle: FileHandle
     private let writeFileHandle: FileHandle
 
@@ -40,7 +39,7 @@ public class STMAssetResourceCache {
         writeFileHandle.closeFile()
     }
 
-	public init(url: URL) throws {
+	init(url: URL) throws {
 		let fileManager = FileManager.default
 		let filePath = STMAssetResourceCacheManager.cachedFilePath(for: url)
 		let fileURL = URL(fileURLWithPath: filePath)
@@ -63,7 +62,21 @@ public class STMAssetResourceCache {
 		writeFileHandle = try FileHandle(forWritingTo: fileURL)
 	}
 
-    func actions(for range: NSRange) -> [STMAssetResourceFragment] {
+	var assetResourceContentInfo: STMAssetResourceContentInfo? {
+		set {
+			guard let info = newValue else { return }
+			writeQueue.async {
+				self.configuration.info = info
+				self.writeFileHandle.truncateFile(atOffset: UInt64(info.contentLength))
+				self.writeFileHandle.synchronizeFile()
+			}
+		}
+		get {
+			return configuration.info
+		}
+	}
+
+    func fragmens(for range: NSRange) -> [STMAssetResourceFragment] {
         guard range.location != NSNotFound else { return [] }
         
         var localFragments = [STMAssetResourceFragment]()
@@ -153,14 +166,6 @@ public class STMAssetResourceCache {
 		}
     }
 
-    func set(info: STMAssetResourceContentInfo) {
-		writeQueue.async {
-			self.configuration.info = info
-			self.writeFileHandle.truncateFile(atOffset: UInt64(info.contentLength))
-			self.writeFileHandle.synchronizeFile()
-		}
-    }
-    
     func save() {
 		writeQueue.async {
 			self.writeFileHandle.synchronizeFile()

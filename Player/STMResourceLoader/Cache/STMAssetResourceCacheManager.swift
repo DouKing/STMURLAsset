@@ -26,8 +26,7 @@ import Foundation
 
 private let directory = NSTemporaryDirectory().appending("/STMVideoResource")
 
-public enum STMAssetResourceCacheManager {
-
+enum STMAssetResourceCacheManager {
 	static func cachedFilePath(for url: URL) -> String {
 		var result = (directory as NSString).appendingPathComponent(url.absoluteString.md5)
 		result = (result as NSString).appendingPathExtension(url.pathExtension)!
