@@ -1,0 +1,10 @@
+.DS_Store
+.build/*
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcshareddata/*.xccheckout
+*.xcworkspace/xcuserdata/
+Pods/*
+Gems/*
+fastlane/*
+node_modules/
