@@ -1,5 +1,5 @@
 //
-//  AssetResourceContentInfo.swift
+//  STMAssetResourceContentInfo.swift
 //  Player
 //
 //  Created by DouKing on 2020/11/16.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AssetResourceContentInfo: Codable {
+struct STMAssetResourceContentInfo: Codable {
 
 	var contentLength: Int64
 	var contentType: String

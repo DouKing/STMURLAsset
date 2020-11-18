@@ -11,16 +11,16 @@ import Alamofire
 
 class STMAssetResourceDataRequest {
     private let url: URL
-	private let cacheHandler: VideoCacheHandler
+	private let cacheHandler: STMAssetResourceCache
     private var dataRequest: DataRequest? {
         didSet {
             oldValue?.cancel()
         }
     }
 
-	private var actions: [VideoCacheAction] = []
+	private var actions: [STMAssetResourceFragment] = []
     
-	init(with url: URL, cacheHandler: VideoCacheHandler) {
+	init(with url: URL, cacheHandler: STMAssetResourceCache) {
         self.url = url
 		self.cacheHandler = cacheHandler
     }

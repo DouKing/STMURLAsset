@@ -14,11 +14,11 @@ class STMAssetResourceLoader: NSObject {
     private(set) var url: URL!
     private(set) var loadingRequest: AVAssetResourceLoadingRequest!
     private var dataRequest: STMAssetResourceDataRequest?
-	private let cacheHandler: VideoCacheHandler
+	private let cacheHandler: STMAssetResourceCache
 
     var assetResourceLoaderDidComplete: ((STMAssetResourceLoader, Error?) -> Void)?
 
-	init(with url: URL, loadingRequest: AVAssetResourceLoadingRequest, cacheHandler: VideoCacheHandler) {
+	init(with url: URL, loadingRequest: AVAssetResourceLoadingRequest, cacheHandler: STMAssetResourceCache) {
 		self.url = url
 		self.loadingRequest = loadingRequest
 		self.cacheHandler = cacheHandler
@@ -104,14 +104,14 @@ extension STMAssetResourceLoader {
         request.contentLength = response.stm_expectedContentLength
         request.isByteRangeAccessSupported = response.stm_isByteRangeAccessSupported
 
-		cacheHandler.set(info:AssetResourceContentInfo(
+		cacheHandler.set(info:STMAssetResourceContentInfo(
 			contentLength: request.contentLength,
 			contentType: request.contentType ?? "",
 			isByteRangeAccessSupported: request.isByteRangeAccessSupported
 		))
     }
 
-	private func fillInWithVideoInfo(_ request: AVAssetResourceLoadingContentInformationRequest?, _ videoInfo: AssetResourceContentInfo?) {
+	private func fillInWithVideoInfo(_ request: AVAssetResourceLoadingContentInformationRequest?, _ videoInfo: STMAssetResourceContentInfo?) {
 		guard let request = request, let videoInfo = videoInfo else { return }
 		request.contentType = videoInfo.contentType
 		request.contentLength = videoInfo.contentLength

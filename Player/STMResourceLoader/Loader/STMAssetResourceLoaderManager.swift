@@ -18,12 +18,12 @@ public class STMAssetResourceLoaderManager: NSObject {
 	private let originalScheme: String?
 	private var pendingRequests: [AVAssetResourceLoadingRequest] = []
     private var loaders: [STMAssetResourceLoader] = []
-	private let cacheHandler: VideoCacheHandler
+	private let cacheHandler: STMAssetResourceCache
 
 	public init(with url: URL) throws {
 		self.originalURL = url
 		self.originalScheme = url.scheme
-		self.cacheHandler = try VideoCacheHandler(url: url)
+		self.cacheHandler = try STMAssetResourceCache(url: url)
 		super.init()
 	}
     
