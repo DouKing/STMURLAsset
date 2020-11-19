@@ -83,13 +83,7 @@ extension STMAssetResourceLoaderManager: AVAssetResourceLoaderDelegate {
         let realURL = url(for: loadingRequest)
 		pendingRequests.append(loadingRequest)
 		let loader = STMAssetResourceLoader(with: realURL, loadingRequest: loadingRequest, cacheHandler: cacheHandler)
-        loader.assetResourceLoaderDidComplete = { [weak self] (resourceLoader, _) in
-            guard let self = self else { return }
-            if let index = self.loaders.firstIndex(of: resourceLoader) {
-                self.loaders.remove(at: index)
-                self.pendingRequests.remove(at: index)
-            }
-        }
+		loader.delegate = self
         loader.startLoad()
         loaders.append(loader)
 
@@ -114,5 +108,27 @@ extension STMAssetResourceLoaderManager {
 
 		urlComponents.scheme = originalScheme
 		return urlComponents.url ?? originalURL
+	}
+}
+
+//--------------------------------------------------------------------------------
+// MARK: - STMAssetResourceLoaderDelegate
+//--------------------------------------------------------------------------------
+
+extension STMAssetResourceLoaderManager: STMAssetResourceLoaderDelegate {
+	func assetResourceLoader(_ loader: STMAssetResourceLoader, didReceiveContentType contentType: String, contentLength: Int64) {
+		delegate?.resourceLoaderManager?(self, didReceiveContentType: contentType, contentLength: contentLength)
+	}
+
+	func assetResourceLoader(_ loader: STMAssetResourceLoader, didLoadData data: Data, fromLocal: Bool) {
+		delegate?.resourceLoaderManager?(self, didLoadData: data, fromLocal: fromLocal)
+	}
+
+	func assetResourceLoader(_ loader: STMAssetResourceLoader, didCompleteWithError error: Error?) {
+		if let index = self.loaders.firstIndex(of: loader) {
+			loaders.remove(at: index)
+			pendingRequests.remove(at: index)
+		}
+		delegate?.resourceLoaderManager?(self, didCompleteWithError: error)
 	}
 }

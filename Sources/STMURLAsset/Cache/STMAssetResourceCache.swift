@@ -24,7 +24,9 @@
 
 import Foundation
 
-private let kFragmentLength = 1024 * 512
+// 1kb
+private let kFragmentLength = 1024 * 1
+private let directory = NSTemporaryDirectory().appending("/STMVideoResource")
 
 class STMAssetResourceCache {
     private let configuration: STMAssetResourceConfiguration
@@ -41,7 +43,7 @@ class STMAssetResourceCache {
 
 	init(url: URL) throws {
 		let fileManager = FileManager.default
-		let filePath = STMAssetResourceCacheManager.cachedFilePath(for: url)
+		let filePath = STMAssetResourceCache.cachedFilePath(for: url)
 		let fileURL = URL(fileURLWithPath: filePath)
 		let fileDirectory = (filePath as NSString).deletingLastPathComponent
 
@@ -107,6 +109,11 @@ class STMAssetResourceCache {
         }
         
         guard localFragments.count > 0 else {
+			let ranges = subRanges(for: range)
+			let fragments = ranges.map { STMAssetResourceFragment(actionType: .remote, range: $0) }
+			if !fragments.isEmpty {
+				return fragments
+			}
             return [STMAssetResourceFragment(actionType: .remote, range: range)]
         }
         
@@ -172,4 +179,69 @@ class STMAssetResourceCache {
 			self.configuration.save()
 		}
     }
+
+	private func subRanges(for range: NSRange) -> [NSRange] {
+		let maxLocation = range.location + range.length
+		var ranges: [NSRange] = []
+
+		var currentRange = range
+		while currentRange.location < maxLocation {
+			let location = currentRange.location
+			if currentRange.length >= kFragmentLength * 2 {
+				let length = kFragmentLength
+				let fragment = NSRange(location: location, length: length)
+				ranges.append(fragment)
+				currentRange = NSRange(location: location + length, length: currentRange.length - length)
+			} else {
+				ranges.append(currentRange)
+				break
+			}
+		}
+
+		return ranges
+	}
+
+	static func cachedSize() -> UInt {
+		let fileManager = FileManager.default
+		let resourceKeys: Set<URLResourceKey> = [.totalFileAllocatedSizeKey]
+
+		let fileContents = { () -> [URL] in
+			if let contens = try? fileManager
+				.contentsOfDirectory(
+					at: URL(fileURLWithPath: directory),
+					includingPropertiesForKeys: Array(resourceKeys),
+					options: .skipsHiddenFiles
+				) { return contens }
+			return []
+		}()
+
+		return fileContents.reduce(0) { size, fileContent in
+			guard let resourceValues = try? fileContent.resourceValues(forKeys: resourceKeys),
+				  resourceValues.isDirectory != true,
+				  let fileSize = resourceValues.totalFileAllocatedSize
+			else { return size }
+
+			return size + UInt(fileSize)
+		}
+	}
+
+	static func cleanAllCache() throws {
+		let fileManager = FileManager.default
+		let fileContents = try fileManager.contentsOfDirectory(atPath: directory)
+
+		for fileContent in fileContents {
+			let filePath = directory.appending("/\(fileContent)")
+			try fileManager.removeItem(atPath: filePath)
+		}
+	}
+
+	private static func cachedFilePath(for url: URL) -> String {
+		var result = (directory as NSString).appendingPathComponent(url.absoluteString.md5)
+		result = (result as NSString).appendingPathExtension(url.pathExtension)!
+		return result
+	}
+
+	private static func cachedConfiguration(for url: URL) throws -> STMAssetResourceConfiguration {
+		return try STMAssetResourceConfiguration.configuration(for: cachedFilePath(for: url))
+	}
 }

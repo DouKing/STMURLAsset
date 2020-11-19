@@ -54,9 +54,21 @@ public class STMURLAsset: AVURLAsset {
 		resourceLoader.setDelegate(assetLoaderManager, queue: .main)
 	}
 
+	public func preloadAsynchronously(_ completion: ((AVKeyValueStatus, Error?) -> Void)? = nil) {
+		loadValuesAsynchronously(forKeys: ["playable"]) { [weak self] in
+			guard let self = self else {
+				completion?(.unknown, nil)
+				return
+			}
+			var error: NSError? = nil
+			let status = self.statusOfValue(forKey: "playable", error: &error)
+			completion?(status, error)
+		}
+	}
+
 	// MARK: setter & getter
 
-	weak var assetLoaderDelegate: STMAssetResourceLoaderManagerDelegate? {
+	public weak var resourceLoaderDelegate: STMAssetResourceLoaderManagerDelegate? {
 		get {
 			assetLoaderManager?.delegate
 		}

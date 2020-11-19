@@ -26,27 +26,31 @@ import Foundation
 import AVFoundation
 import CoreServices
 
+protocol STMAssetResourceLoaderDelegate: class {
+	func assetResourceLoader(_ loader: STMAssetResourceLoader, didCompleteWithError error: Error?)
+	func assetResourceLoader(_ loader: STMAssetResourceLoader, didReceiveContentType contentType: String, contentLength: Int64)
+	func assetResourceLoader(_ loader: STMAssetResourceLoader, didLoadData data: Data, fromLocal: Bool)
+}
+
 class STMAssetResourceLoader: NSObject {
     private(set) var url: URL!
     private(set) var loadingRequest: AVAssetResourceLoadingRequest!
     private var dataRequest: STMAssetResourceDataRequest?
 	private let cacheHandler: STMAssetResourceCache
 
-    var assetResourceLoaderDidComplete: ((STMAssetResourceLoader, Error?) -> Void)?
+	weak var delegate: STMAssetResourceLoaderDelegate?
 
 	init(with url: URL, loadingRequest: AVAssetResourceLoadingRequest, cacheHandler: STMAssetResourceCache) {
 		self.url = url
 		self.loadingRequest = loadingRequest
 		self.cacheHandler = cacheHandler
         super.init()
-		fillInWithVideoInfo(loadingRequest.contentInformationRequest, cacheHandler.assetResourceContentInfo)
     }
     
     func startLoad() {
         guard let requestLength = loadingRequest.dataRequest?.requestedLength, requestLength > 0 else {
             return
         }
-        
         let startOffset = { () -> Int64 in
             if let start = loadingRequest.dataRequest?.currentOffset, start != 0 {
                 return start
@@ -56,12 +60,16 @@ class STMAssetResourceLoader: NSObject {
         let endOffset = startOffset + Int64(requestLength) - 1
         
         cancel()
+		if let contentInfoRequest = loadingRequest.contentInformationRequest,
+		   let videoInfo = cacheHandler.assetResourceContentInfo {
+			fillInWithVideoInfo(contentInfoRequest, videoInfo)
+		}
 
 		dataRequest = STMAssetResourceDataRequest(with: url, cacheHandler: cacheHandler)
 		dataRequest?.didReceiveData = { [weak self] (request, data, isLocal) in
 			guard let self = self else { return }
-			debugPrint("receive \(isLocal ? "local" : "remote") data \(data.count) bytes")
 			self.loadingRequest.dataRequest?.respond(with: data)
+			self.delegate?.assetResourceLoader(self, didLoadData: data, fromLocal: isLocal)
 		}
 		dataRequest?.didComplete = { [weak self] (request, response, error) in
 			guard let self = self else { return }
@@ -75,8 +83,7 @@ class STMAssetResourceLoader: NSObject {
 				self.loadingRequest.finishLoading()
 			}
 
-			debugPrint("receive data complete \((error != nil) ? "\(error!)" : "success")")
-			self.assetResourceLoaderDidComplete?(self, error)
+			self.delegate?.assetResourceLoader(self, didCompleteWithError: error)
 		}
 
 		dataRequest?.download(from: startOffset, to: endOffset)
@@ -103,12 +110,15 @@ extension STMAssetResourceLoader {
 			contentType: request.contentType ?? "",
 			isByteRangeAccessSupported: request.isByteRangeAccessSupported
 		)
+
+		delegate?.assetResourceLoader(self, didReceiveContentType: request.contentType ?? "", contentLength: request.contentLength)
     }
 
-	private func fillInWithVideoInfo(_ request: AVAssetResourceLoadingContentInformationRequest?, _ videoInfo: STMAssetResourceContentInfo?) {
-		guard let request = request, let videoInfo = videoInfo else { return }
+	private func fillInWithVideoInfo(_ request: AVAssetResourceLoadingContentInformationRequest, _ videoInfo: STMAssetResourceContentInfo) {
 		request.contentType = videoInfo.contentType
 		request.contentLength = videoInfo.contentLength
 		request.isByteRangeAccessSupported = videoInfo.isByteRangeAccessSupported
+
+		delegate?.assetResourceLoader(self, didReceiveContentType: request.contentType ?? "", contentLength: request.contentLength)
 	}
 }

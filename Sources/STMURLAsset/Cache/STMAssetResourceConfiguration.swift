@@ -100,23 +100,11 @@ class STMAssetResourceConfiguration: Codable {
 
 	func save() {
 		do {
-			if FileManager.default.fileExists(atPath: filePath) {
-				try FileManager.default.removeItem(atPath: filePath)
-			}
-
-			if !FileManager.default.createFile(
-				atPath: filePath,
-				contents: try JSONEncoder().encode(self),
-				attributes: nil
-			) {
-				throw NSError(
-					domain: "com.douking.assetresource.cache",
-					code: -1,
-					userInfo: [NSLocalizedDescriptionKey: "Failed to create file"]
-				)
-			}
+			let data = try JSONEncoder().encode(self)
+			let fileURL = URL(fileURLWithPath: filePath)
+			try data.write(to: fileURL)
 		} catch {
-			//VideoLoadManager.shared.reportError?(error)
+			debugPrint("cache asset resource config error \(error)")
 		}
 	}
 

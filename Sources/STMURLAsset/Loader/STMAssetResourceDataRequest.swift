@@ -100,7 +100,6 @@ class STMAssetResourceDataRequest {
 
 			switch self.validData(of: data, from: dataTask) {
 			case .failure(let error):
-				debugPrint("valid error \(error)")
 				self.didComplete?(self, dataTask.response, error)
 				dataTask.cancel()
 			case .success(let validData):

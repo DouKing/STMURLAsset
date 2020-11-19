@@ -24,11 +24,21 @@
 
 import Foundation
 
-enum STMResourceLoadingError: Error {
+public enum STMResourceLoadingError: Error {
 	case responseValidationFailed
 	case wrongRange
 }
 
-public protocol STMAssetResourceLoaderManagerDelegate: AnyObject {
-	
+@objc
+public protocol STMAssetResourceLoaderManagerDelegate: class {
+	@objc optional func resourceLoaderManager(_ resourceLoaderManager: STMAssetResourceLoaderManager,
+											  didCompleteWithError error: Error?)
+
+	@objc optional func resourceLoaderManager(_ resourceLoaderManager: STMAssetResourceLoaderManager,
+											  didReceiveContentType contentType: String,
+											  contentLength: Int64)
+
+	@objc optional func resourceLoaderManager(_ resourceLoaderManager: STMAssetResourceLoaderManager,
+											  didLoadData data: Data,
+											  fromLocal: Bool)
 }
