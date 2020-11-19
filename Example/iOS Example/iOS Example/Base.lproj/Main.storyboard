@@ -12,7 +12,7 @@
         <!--View Controller-->
         <scene sceneID="uq4-xS-w3D">
             <objects>
-                <tableViewController id="U2Q-aH-aUg" customClass="ViewController" customModule="Player" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="U2Q-aH-aUg" customClass="ViewController" customModule="iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CpF-0O-b8X">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,14 +74,20 @@
         <!--Video View Controller-->
         <scene sceneID="iqJ-Tx-Sa9">
             <objects>
-                <viewController id="THN-D6-GAj" customClass="VideoViewController" customModule="Player" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="THN-D6-GAj" customClass="VideoViewController" customModule="iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oTB-tv-c90">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="ehv-E2-nRS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="oG0-nx-zdg"/>
+                    <navigationItem key="navigationItem" id="oG0-nx-zdg">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="akV-9V-R6v">
+                            <connections>
+                                <action selector="playNext" destination="THN-D6-GAj" id="igP-O4-CnH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dNE-yp-HsU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

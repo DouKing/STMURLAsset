@@ -19,31 +19,6 @@ class VideoViewController: UIViewController {
         super.viewDidLoad()
 		view.addSubview(playerView)
 		playerView.playerLayer.player = player
-
-//		let url = URL(string: "https://vt1.doubanio.com/202001021917/01b91ce2e71fd7f671e226ffe8ea0cda/view/movie/M/301120229.mp4")!
-		let url = URL(string: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")!
-		let asset = STMURLAsset(url: url)
-//		asset.loadValuesAsynchronously(forKeys: ["playable"]) {
-//			var error: NSError? = nil
-//			let status = asset.statusOfValue(forKey: "playable", error: &error)
-//			switch status {
-//				case .loaded:
-//					// Sucessfully loaded, continue processing
-//					debugPrint("loaded")
-//				case .failed:
-//					// Examine NSError pointer to determine failure
-//					debugPrint("failed")
-//				case .cancelled:
-//					// Loading cancelled
-//					debugPrint("cancelled")
-//				default:
-//					// Handle all other cases
-//					debugPrint("other")
-//			}
-//
-//		}
-		let item = AVPlayerItem(asset: asset)
-		self.player.replaceCurrentItem(with: item)
     }
 
 	override func viewDidLayoutSubviews() {
@@ -53,7 +28,7 @@ class VideoViewController: UIViewController {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		player.play()
+		playNext()
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
@@ -61,8 +36,43 @@ class VideoViewController: UIViewController {
 		player.pause()
 	}
 
+	@IBAction func playNext() {
+		player.pause()
+		index = (index + 1) % assets.count
+		let asset = assets[index]
+		let item = AVPlayerItem(asset: asset)
+		self.player.replaceCurrentItem(with: item)
+		player.play()
+	}
+
 	let playerView = PlayerView()
 	let player: AVPlayer = AVPlayer()
+	var index = 0
+
+	lazy var assets: [STMURLAsset] = {
+		return ["http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", "https://vt1.doubanio.com/202001021917/01b91ce2e71fd7f671e226ffe8ea0cda/view/movie/M/301120229.mp4"
+		].map {
+			let url = URL(string: $0)!
+			let asset = STMURLAsset(url: url)
+			asset.resourceLoaderDelegate = self
+			asset.preloadAsynchronously()
+			return asset
+		}
+	}()
+}
+
+extension VideoViewController: STMAssetResourceLoaderManagerDelegate {
+	func resourceLoaderManager(_ resourceLoaderManager: STMAssetResourceLoaderManager, didReceiveContentType contentType: String, contentLength: Int64) {
+		debugPrint("receive response \(contentType)/\(contentLength)")
+	}
+
+	func resourceLoaderManager(_ resourceLoaderManager: STMAssetResourceLoaderManager, didLoadData data: Data, fromLocal: Bool) {
+		debugPrint("receive \(fromLocal ? "local" : "remote") data \(data.count) bytes")
+	}
+
+	func resourceLoaderManager(_ resourceLoaderManager: STMAssetResourceLoaderManager, didCompleteWithError error: Error?) {
+		debugPrint("receive data complete \((error != nil) ? "\(error!)" : "success")")
+	}
 }
 
 class PlayerView: UIView {
