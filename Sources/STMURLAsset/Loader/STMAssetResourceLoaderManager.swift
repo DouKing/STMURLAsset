@@ -40,7 +40,7 @@ public class STMAssetResourceLoaderManager: NSObject {
 	public init(with url: URL) throws {
 		self.originalURL = url
 		self.originalScheme = url.scheme
-		self.cacheHandler = try STMAssetResourceCache(url: url)
+		self.cacheHandler = try STMAssetResourceCache.instance(forURL: url)
 		super.init()
 	}
     

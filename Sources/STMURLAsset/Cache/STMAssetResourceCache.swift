@@ -28,7 +28,10 @@ import Foundation
 private let kFragmentLength = 1024 * 1
 private let directory = NSTemporaryDirectory().appending("/STMVideoResource")
 
+private var cacheMapTable = NSMapTable<NSString, STMAssetResourceCache>.strongToWeakObjects()
+
 class STMAssetResourceCache {
+	private let url: URL
     private let configuration: STMAssetResourceConfiguration
     private let readFileHandle: FileHandle
     private let writeFileHandle: FileHandle
@@ -37,11 +40,26 @@ class STMAssetResourceCache {
 	private let writeQueue: DispatchQueue = DispatchQueue(label: "com.douking.assetresource.cache.write")
 
     deinit {
+		debugPrint("STMAssetResourceCache " + #function)
         readFileHandle.closeFile()
         writeFileHandle.closeFile()
+		cacheMapTable.removeObject(forKey: STMAssetResourceCache.cachedKey(for: url))
     }
 
-	init(url: URL) throws {
+	static func instance(forURL url: URL) throws -> STMAssetResourceCache {
+		let key = cachedKey(for: url)
+		objc_sync_enter(url)
+		if let cache = cacheMapTable.object(forKey: key) {
+			return cache
+		}
+
+		let cache = try STMAssetResourceCache(url: url)
+		cacheMapTable.setObject(cache, forKey: key)
+		objc_sync_exit(url)
+		return cache
+	}
+
+	private init(url: URL) throws {
 		let fileManager = FileManager.default
 		let filePath = STMAssetResourceCache.cachedFilePath(for: url)
 		let fileURL = URL(fileURLWithPath: filePath)
@@ -59,6 +77,7 @@ class STMAssetResourceCache {
 			fileManager.createFile(atPath: filePath, contents: nil, attributes: nil)
 		}
 
+		self.url = url
 		configuration = try STMAssetResourceConfiguration.configuration(for: filePath)
 		readFileHandle = try FileHandle(forReadingFrom: fileURL)
 		writeFileHandle = try FileHandle(forWritingTo: fileURL)
@@ -243,5 +262,9 @@ class STMAssetResourceCache {
 
 	private static func cachedConfiguration(for url: URL) throws -> STMAssetResourceConfiguration {
 		return try STMAssetResourceConfiguration.configuration(for: cachedFilePath(for: url))
+	}
+
+	private static func cachedKey(for url: URL) -> NSString {
+		return url.absoluteString as NSString
 	}
 }

@@ -64,9 +64,11 @@ class STMAssetResourceDataRequest {
 		let action = fragments.removeFirst()
 
 		guard action.actionType == .remote else {
-			let data = cacheHandler.cachedData(for: action.range)
-			didReceiveData?(self, data, true)
-			processFragments()
+			DispatchQueue.main.async {
+				let data = self.cacheHandler.cachedData(for: action.range)
+				self.didReceiveData?(self, data, true)
+				self.processFragments()
+			}
 			return
 		}
 
