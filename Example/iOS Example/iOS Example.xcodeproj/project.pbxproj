@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,15 @@
 		0067AF0D25651F590096F19B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0067AF0C25651F590096F19B /* Assets.xcassets */; };
 		0067AF1025651F590096F19B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0067AF0E25651F590096F19B /* LaunchScreen.storyboard */; };
 		0067AF55256523020096F19B /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067AF4E256523020096F19B /* VideoViewController.swift */; };
+		007D0167256E338200ABECB0 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 007D0160256E338200ABECB0 /* data.json */; };
+		007D016C256E36DA00ABECB0 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007D016A256E36DA00ABECB0 /* PlayerCell.swift */; };
+		007D016D256E36DA00ABECB0 /* PlayerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 007D016B256E36DA00ABECB0 /* PlayerCell.xib */; };
+		007D0171256E390800ABECB0 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 007D0170256E390800ABECB0 /* SwiftyJSON */; };
+		007D0176256E3CDE00ABECB0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 007D0175256E3CDE00ABECB0 /* Kingfisher */; };
+		007D019B256E55BA00ABECB0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0067AF2225651FAF0096F19B /* Alamofire.framework */; };
+		007D019C256E55BA00ABECB0 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0067AF2225651FAF0096F19B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		007D019E256E55BC00ABECB0 /* STMURLAsset.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0067AF2425651FAF0096F19B /* STMURLAsset.framework */; };
+		007D019F256E55BC00ABECB0 /* STMURLAsset.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0067AF2425651FAF0096F19B /* STMURLAsset.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +48,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		007D019D256E55BA00ABECB0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				007D019F256E55BC00ABECB0 /* STMURLAsset.framework in Embed Frameworks */,
+				007D019C256E55BA00ABECB0 /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0067AF0025651F560096F19B /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0067AF0325651F560096F19B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +73,9 @@
 		0067AF1125651F590096F19B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0067AF1825651FAF0096F19B /* STMURLAsset.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = STMURLAsset.xcodeproj; path = ../../STMURLAsset.xcodeproj; sourceTree = "<group>"; };
 		0067AF4E256523020096F19B /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		007D0160256E338200ABECB0 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		007D016A256E36DA00ABECB0 /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
+		007D016B256E36DA00ABECB0 /* PlayerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +83,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				007D019E256E55BC00ABECB0 /* STMURLAsset.framework in Frameworks */,
+				007D0176256E3CDE00ABECB0 /* Kingfisher in Frameworks */,
+				007D0171256E390800ABECB0 /* SwiftyJSON in Frameworks */,
+				007D019B256E55BA00ABECB0 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +99,7 @@
 				0067AF0225651F560096F19B /* iOS Example */,
 				0067AF0125651F560096F19B /* Products */,
 				0067AF1825651FAF0096F19B /* STMURLAsset.xcodeproj */,
+				007D017F256E4B3B00ABECB0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,10 +117,13 @@
 				0067AF0325651F560096F19B /* AppDelegate.swift */,
 				0067AF0725651F560096F19B /* ViewController.swift */,
 				0067AF4E256523020096F19B /* VideoViewController.swift */,
+				007D016A256E36DA00ABECB0 /* PlayerCell.swift */,
+				007D016B256E36DA00ABECB0 /* PlayerCell.xib */,
 				0067AF0925651F560096F19B /* Main.storyboard */,
 				0067AF0C25651F590096F19B /* Assets.xcassets */,
 				0067AF0E25651F590096F19B /* LaunchScreen.storyboard */,
 				0067AF1125651F590096F19B /* Info.plist */,
+				007D0160256E338200ABECB0 /* data.json */,
 			);
 			path = "iOS Example";
 			sourceTree = "<group>";
@@ -103,6 +138,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		007D017F256E4B3B00ABECB0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -113,12 +155,17 @@
 				0067AEFC25651F560096F19B /* Sources */,
 				0067AEFD25651F560096F19B /* Frameworks */,
 				0067AEFE25651F560096F19B /* Resources */,
+				007D019D256E55BA00ABECB0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "iOS Example";
+			packageProductDependencies = (
+				007D0170256E390800ABECB0 /* SwiftyJSON */,
+				007D0175256E3CDE00ABECB0 /* Kingfisher */,
+			);
 			productName = "iOS Example";
 			productReference = 0067AF0025651F560096F19B /* iOS Example.app */;
 			productType = "com.apple.product-type.application";
@@ -146,6 +193,10 @@
 				Base,
 			);
 			mainGroup = 0067AEF725651F560096F19B;
+			packageReferences = (
+				007D016F256E390800ABECB0 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				007D0174256E3CDE00ABECB0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 0067AF0125651F560096F19B /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -193,6 +244,8 @@
 				0067AF1025651F590096F19B /* LaunchScreen.storyboard in Resources */,
 				0067AF0D25651F590096F19B /* Assets.xcassets in Resources */,
 				0067AF0B25651F560096F19B /* Main.storyboard in Resources */,
+				007D016D256E36DA00ABECB0 /* PlayerCell.xib in Resources */,
+				007D0167256E338200ABECB0 /* data.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				007D016C256E36DA00ABECB0 /* PlayerCell.swift in Sources */,
 				0067AF0825651F560096F19B /* ViewController.swift in Sources */,
 				0067AF0425651F560096F19B /* AppDelegate.swift in Sources */,
 				0067AF55256523020096F19B /* VideoViewController.swift in Sources */,
@@ -353,6 +407,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RQW526M45R;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "iOS Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -372,6 +428,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RQW526M45R;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "iOS Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -407,6 +465,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		007D016F256E390800ABECB0 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		007D0174256E3CDE00ABECB0 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		007D0170256E390800ABECB0 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 007D016F256E390800ABECB0 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		007D0175256E3CDE00ABECB0 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 007D0174256E3CDE00ABECB0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0067AEF825651F560096F19B /* Project object */;
 }
