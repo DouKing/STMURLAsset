@@ -22,6 +22,8 @@
 		007D019C256E55BA00ABECB0 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0067AF2225651FAF0096F19B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		007D019E256E55BC00ABECB0 /* STMURLAsset.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0067AF2425651FAF0096F19B /* STMURLAsset.framework */; };
 		007D019F256E55BC00ABECB0 /* STMURLAsset.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0067AF2425651FAF0096F19B /* STMURLAsset.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		007D01A92570EDA900ABECB0 /* PlayerTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007D01A82570EDA800ABECB0 /* PlayerTransitionViewController.swift */; };
+		007D01B12571037600ABECB0 /* PlayerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007D01B02571037600ABECB0 /* PlayerDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +78,8 @@
 		007D0160256E338200ABECB0 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		007D016A256E36DA00ABECB0 /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		007D016B256E36DA00ABECB0 /* PlayerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerCell.xib; sourceTree = "<group>"; };
+		007D01A82570EDA800ABECB0 /* PlayerTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTransitionViewController.swift; sourceTree = "<group>"; };
+		007D01B02571037600ABECB0 /* PlayerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,8 @@
 			children = (
 				0067AF0325651F560096F19B /* AppDelegate.swift */,
 				0067AF0725651F560096F19B /* ViewController.swift */,
+				007D01A82570EDA800ABECB0 /* PlayerTransitionViewController.swift */,
+				007D01B02571037600ABECB0 /* PlayerDetailViewController.swift */,
 				0067AF4E256523020096F19B /* VideoViewController.swift */,
 				007D016A256E36DA00ABECB0 /* PlayerCell.swift */,
 				007D016B256E36DA00ABECB0 /* PlayerCell.xib */,
@@ -258,6 +264,8 @@
 			files = (
 				007D016C256E36DA00ABECB0 /* PlayerCell.swift in Sources */,
 				0067AF0825651F560096F19B /* ViewController.swift in Sources */,
+				007D01B12571037600ABECB0 /* PlayerDetailViewController.swift in Sources */,
+				007D01A92570EDA900ABECB0 /* PlayerTransitionViewController.swift in Sources */,
 				0067AF0425651F560096F19B /* AppDelegate.swift in Sources */,
 				0067AF55256523020096F19B /* VideoViewController.swift in Sources */,
 			);

@@ -164,12 +164,31 @@ extension VideoViewController: STMAssetResourceLoaderManagerDelegate {
 //--------------------------------------------------------------------------------
 
 class PlayerView: UIView {
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapAction(_:)))
+		addGestureRecognizer(tap)
+	}
+
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
 	override class var layerClass: AnyClass {
 		return AVPlayerLayer.self
 	}
 
 	var playerLayer: AVPlayerLayer {
 		return layer as! AVPlayerLayer
+	}
+
+	@objc func handleTapAction(_ sender: UITapGestureRecognizer) {
+		guard let player = playerLayer.player else { return }
+		if player.rate > 0 {
+			player.pause()
+		} else {
+			player.play()
+		}
 	}
 }
 
