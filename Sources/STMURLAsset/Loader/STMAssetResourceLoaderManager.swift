@@ -22,7 +22,6 @@
 //  THE SOFTWARE.
 //
 
-import UIKit
 import AVFoundation
 import CoreServices
 

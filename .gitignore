@@ -4,6 +4,7 @@
 *.xcodeproj/xcuserdata/
 *.xcworkspace/xcshareddata/*.xccheckout
 *.xcworkspace/xcuserdata/
+.swiftpm/
 Pods/*
 Gems/*
 fastlane/*
