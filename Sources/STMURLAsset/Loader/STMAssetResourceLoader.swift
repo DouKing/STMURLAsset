@@ -26,7 +26,7 @@ import Foundation
 import AVFoundation
 import CoreServices
 
-protocol STMAssetResourceLoaderDelegate: class {
+protocol STMAssetResourceLoaderDelegate: AnyObject {
 	func assetResourceLoader(_ loader: STMAssetResourceLoader, didCompleteWithError error: Error?)
 	func assetResourceLoader(_ loader: STMAssetResourceLoader, didReceiveContentType contentType: String, contentLength: Int64)
 	func assetResourceLoader(_ loader: STMAssetResourceLoader, didLoadData data: Data, fromLocal: Bool)

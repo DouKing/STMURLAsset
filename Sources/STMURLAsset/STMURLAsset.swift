@@ -65,6 +65,13 @@ public class STMURLAsset: AVURLAsset {
 			completion?(status, error)
 		}
 	}
+    
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    public func preload() async throws -> AVAsyncProperty<STMURLAsset, Bool>.Status {
+        _ = try await load(.isPlayable)
+        let status = status(of: .isPlayable)
+        return status
+    }
 
 	// MARK: setter & getter
 

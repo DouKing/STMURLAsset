@@ -30,7 +30,7 @@ public enum STMResourceLoadingError: Error {
 }
 
 @objc
-public protocol STMAssetResourceLoaderManagerDelegate: class {
+public protocol STMAssetResourceLoaderManagerDelegate: AnyObject {
 	@objc optional func resourceLoaderManager(_ resourceLoaderManager: STMAssetResourceLoaderManager,
 											  didCompleteWithError error: Error?)
 
