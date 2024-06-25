@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'STMURLAsset'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'STMURLAsset.'
 
   s.description      = <<-DESC
@@ -19,12 +19,12 @@ STMURLAsset is a subclass of AVURLAsset that can cache data downloaded by AVPlay
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'DouKing' => 'wyk8916@gmail.com' }
   s.source           = { :git => 'https://github.com/douking/STMURLAsset.git', :tag => s.version.to_s }
-  s.ios.deployment_target = '10.0'
-  s.macos.deployment_target = '10.12'
+  s.ios.deployment_target = '15.0'
+  s.macos.deployment_target = '12.0'
 
   s.requires_arc = true
-  s.swift_version = "5.0"
+  s.swift_version = "6.0"
 
-  s.source_files = 'Sources/STMURLAsset/**/**.swift'
+  s.source_files = 'STMURLAsset/**/**.swift'
   s.dependency 'Alamofire', '~> 5.4.0'
 end

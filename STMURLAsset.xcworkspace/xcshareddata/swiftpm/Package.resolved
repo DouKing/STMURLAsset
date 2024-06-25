@@ -1,25 +1,33 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Kingfisher",
-        "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
-        "state": {
-          "branch": null,
-          "revision": "5be9bf59061d0da52d89f5eebc22eb295fbbceee",
-          "version": "5.15.7"
-        }
-      },
-      {
-        "package": "SwiftyJSON",
-        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
-        "state": {
-          "branch": null,
-          "revision": "2b6054efa051565954e1d2b9da831680026cd768",
-          "version": "5.0.0"
-        }
+  "originHash" : "27f5ba07fc88117a7b56ef7a61a1dc55c0a8a7cd6db39d95d920d46ee6318587",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "5be9bf59061d0da52d89f5eebc22eb295fbbceee",
+        "version" : "5.15.7"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "2b6054efa051565954e1d2b9da831680026cd768",
+        "version" : "5.0.0"
+      }
+    }
+  ],
+  "version" : 3
 }
